@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="tr">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kampüste Bul</title>
+  
+  <!-- Logo & Favicon Bağlantıları -->
+  <link rel="icon" type="image/svg+xml" href="gemini-svg">
+  <link rel="apple-touch-icon" href="gemini-svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js"></script>
+  <style>
+    :root{--ink:#26352f;--muted:#68746d;--coral:#b75039;--mint:#e5eadf;--line:#d9ddd5;--bg:#f5f4ee}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif}
+    button,input,select,textarea{font-family:"DM Sans",sans-serif}
+    button{cursor:pointer}button:disabled{opacity:.55;cursor:not-allowed}
+    button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{outline:3px solid #b75039;outline-offset:3px}
+    h1,h2,h3,p{margin-top:0}h1,h2,h3{font-family:"Plus Jakarta Sans",sans-serif;letter-spacing:-.045em}
+    .shell{max-width:1180px;margin:auto;padding:0 28px}
+    .site-header{border-bottom:1px solid var(--line)}
+    .header-inner{min-height:74px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+    
+    /* Logo Stilleri */
+    .brand{display:flex;align-items:center;gap:10px;font-family:"Plus Jakarta Sans",sans-serif;font-size:20px;font-weight:800;white-space:nowrap}
+    .brand-logo{height:38px;width:auto;object-fit:contain;border-radius:6px}
+    .brand-mark{display:grid;place-items:center;width:34px;height:34px;background:var(--coral);color:white;border-radius:4px}
+    
+    .nav{display:flex;gap:5px;overflow-x:auto}
+    .nav button{border:0;background:transparent;color:#68746d;padding:11px 13px;border-radius:4px;font-weight:700;white-space:nowrap}
+    .nav button.active,.nav button:hover{background:#e8e9df;color:#354c3c}
+    .primary,.secondary{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border-radius:5px;font-weight:700}
+    .primary{background:#a94e39;border:1px solid #a94e39;color:white}.primary:hover{background:#843e2d}
+    .secondary{background:#faf9f4;border:1px solid #cbd2c8;color:var(--ink)}.secondary:hover{background:#e8e9df}
+    .icon{width:18px;height:18px;flex:none}main{padding-top:36px;padding-bottom:70px}
+    .view{display:none}.view.active{display:block}
+    .hero{background:#e7e9df;border:1px solid #d9ded2;border-radius:5px;min-height:310px;padding:43px 6%;display:flex;align-items:center;justify-content:space-between;gap:30px;margin-bottom:37px;overflow:hidden}
+    .hero-copy{max-width:600px}.eyebrow{color:#526a57;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
+    .hero h1{font-size:clamp(34px,4.5vw,53px);line-height:1.13;margin-bottom:17px}.hero h1 span{color:#a94e39}
+    .hero p,.page-intro p{color:#58655c;line-height:1.65}.hero-actions,.actions{display:flex;gap:11px;flex-wrap:wrap}
+    .hero-art{width:245px;min-width:200px;height:210px;background:#faf9f1;border:1px solid #d9d4c5;box-shadow:4px 7px 0 #cdd4c8;transform:rotate(3deg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center}
+    .hero-art .emoji{font-size:66px}.hero-art small{color:var(--muted)}
+    .section-head{display:flex;justify-content:space-between;align-items:end;gap:15px;margin-bottom:19px}.section-head h2{font-size:25px;margin-bottom:5px}.section-head p,.count,.hint{color:var(--muted);font-size:13px}.count{font-weight:700}
+    .toolbar{display:flex;gap:12px;margin-bottom:20px}.search-wrap{flex:1;position:relative}.search-wrap svg{position:absolute;left:14px;top:14px;color:#819083}
+    input,select,textarea{width:100%;border:1px solid #d9ddd5;background:white;border-radius:4px;padding:12px 14px;color:var(--ink);font-size:14px}
+    .search-wrap input{padding-left:43px}.filter{width:180px}
+    .listings{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}
+    .listing-card,.panel,.match-card,.chat-layout,.match-pair{background:white;border:1px solid #dfe2da;border-radius:5px}
+    .listing-card{padding:19px;min-height:210px;display:flex;flex-direction:column}
+    .card-top{display:flex;justify-content:space-between;align-items:start;margin-bottom:18px}
+    .item-icon{display:grid;place-items:center;width:50px;height:50px;background:#e9eee6;color:#57735e;border-radius:4px}.item-icon svg{width:24px;height:24px}
+    .tag{display:inline-block;background:#f0e8db;color:#85543f;padding:7px 9px;border-radius:3px;font-size:11px;font-weight:800;letter-spacing:.04em}.tag.found{background:#e4eee3;color:#426b50}
+    .listing-card h3{font-size:17px;margin-bottom:8px}.meta{font-size:13px;color:#78847c;display:flex;gap:7px;align-items:center;margin-bottom:8px}.meta svg{width:14px;height:14px}
+    .card-bottom{border-top:1px solid #edf0ea;margin-top:auto;padding-top:14px;display:flex;justify-content:space-between;align-items:center;gap:8px}.card-bottom small{color:#89948b}
+    .page-intro{margin-bottom:27px}.page-intro h1{font-size:clamp(30px,4vw,43px);margin-bottom:9px}.page-intro p{max-width:700px}
+    .form-layout{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(250px,.85fr);gap:23px}.panel{padding:27px}.panel h2{font-size:19px;margin-bottom:22px}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.field{display:flex;flex-direction:column;gap:8px}.field.full{grid-column:1/-1}.field label{font-size:13px;font-weight:800}.field textarea{min-height:110px;resize:vertical}
+    .hint{line-height:1.5;margin:3px 0 0}.form-submit{margin-top:23px}.aside-note{background:#edf0e8;padding:19px;color:#427660;line-height:1.55;font-size:14px;border-radius:4px}.aside-note svg{display:block;margin-bottom:11px}
+    .match-pair{padding:22px;margin-bottom:20px}
+    .chat-layout{display:grid;grid-template-columns:280px 1fr;min-height:500px;overflow:hidden}.chat-sidebar{border-right:1px solid var(--line);padding:22px}
+    .thread-button{width:100%;background:white;border:1px solid #eee;border-radius:5px;padding:13px;text-align:left;color:var(--ink);margin-bottom:9px}.thread-button.active{background:#e8eee6;border-color:#b7cbb7}
+    .chat-main{display:flex;flex-direction:column;min-width:0}.chat-header{padding:20px 24px;border-bottom:1px solid var(--line);font-weight:800}
+    .messages{padding:26px;flex:1;display:flex;flex-direction:column;gap:15px;background:#fdfdfc;min-height:300px;overflow:auto}.bubble{max-width:78%;align-self:flex-start;background:#f0f1ed;border-radius:5px;padding:12px 16px;font-size:14px;line-height:1.5;overflow-wrap:anywhere}.bubble.mine{align-self:flex-end;background:#e4eee5}
+    .chat-form{display:flex;gap:10px;padding:17px 22px;border-top:1px solid var(--line)}.chat-form input{flex:1;min-width:0}
+    .notice{display:none;background:#fff1e8;color:#85543f;border-radius:5px;padding:12px 15px;margin-bottom:18px;font-size:13px}.notice.show{display:block}
+    .foot{border-top:1px solid var(--line);padding:25px 0;color:#9298a2;font-size:13px}.foot .shell{display:flex;justify-content:space-between;gap:20px}
+    
+    .campus-badge{display:inline-flex;align-items:center;gap:6px;background:#e4eee3;color:#385941;padding:5px 10px;border-radius:4px;font-size:12px;font-weight:700}
+    .auth-container{max-width:440px;margin:40px auto;padding:32px;background:white;border:1px solid var(--line);border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.05)}
+    .auth-step{display:none}.auth-step.active{display:block}
+  </style>
+ </head>
+ <body>
+  <header class="site-header">
+   <div class="shell header-inner">
+    
+    <!-- ENTEGRE EDİLEN LOGO ALANI (gemini-svg Bağlantısı) -->
+    <div class="brand">
+     <img src="gemini-svg" alt="Logo" class="brand-logo" onerror="this.src='gemini-svg.svg'; this.onerror=function(){this.style.display='none'; document.getElementById('fallback-icon').style.display='grid';}">
+     <span id="fallback-icon" class="brand-mark" style="display:none;"><i data-lucide="scan-search"></i></span>
+     kampüste<span style="color:var(--coral)">bul.</span>
+    </div>
+    
+    <div id="user-campus-badge" class="campus-badge" style="display:none;">
+      <i data-lucide="graduation-cap" class="icon"></i>
+      <span id="campus-name-text">Galatasaray Üniversitesi</span>
+    </div>
+
+    <nav class="nav" aria-label="Ana gezinme">
+      <button id="nav-home" class="active" data-view="home">Ana sayfa</button> 
+      <button id="nav-create" data-view="create">İlan aç</button> 
+      <button id="nav-matches" data-view="matches">Eşleşmeler</button> 
+      <button id="nav-verify" data-view="verify">Doğrulama</button> 
+      <button id="nav-chat" data-view="chat">Mesajlar</button> 
+      <button id="nav-notifications" data-view="notifications">Bildirimler</button>
+    </nav>
+    
+    <div id="auth-header-action">
+      <button id="header-create" class="primary" data-view="create"><i data-lucide="plus" class="icon"></i> İlan oluştur</button>
+    </div>
+   </div>
+  </header>
+
+  <main class="shell">
+   <div id="status" class="notice" role="status" aria-live="polite"></div>
+
+   <!-- KİMLİK DOĞRULAMA KATI -->
+   <section id="view-auth" class="view active" aria-labelledby="auth-title">
+     <div class="auth-container">
+       
+       <div id="auth-step-1" class="auth-step active">
+         <div style="text-align:center; margin-bottom:15px;">
+           <img src="gemini-svg" alt="Kampüste Bul Logo" style="height:65px; width:auto;" onerror="this.src='gemini-svg.svg'; this.onerror=function(){this.style.display='none';}">
+         </div>
+         <div class="eyebrow">ÖĞRENCİ DOĞRULAMASI</div>
+         <h1 id="auth-title" style="font-size:24px; margin-top:6px;">Kampüsüne Giriş Yap</h1>
+         <p style="color:var(--muted); font-size:14px; margin-bottom:20px;">Sadece onaylı öğrenci e-posta adresiyle kaybolan eşya ilanlarına erişebilirsin.</p>
+         
+         <form id="email-form">
+           <div class="field" style="margin-bottom:15px;">
+             <label for="student-email">Okul E-postası</label>
+             <input id="student-email" type="email" placeholder="ornek@ogr.gsu.edu.tr" required>
+             <p class="hint">Desteklenen uzantılar: .edu.tr veya üniversite e-postaları</p>
+           </div>
+           <button type="submit" class="primary" style="width:100%;">Doğrulama Kodu Gönder</button>
+         </form>
+       </div>
+
+       <div id="auth-step-2" class="auth-step">
+         <div class="eyebrow">KODU ONAYLA</div>
+         <h1 style="font-size:24px; margin-top:6px;">Gelen Kutunu Kontrol Et</h1>
+         <p style="color:var(--muted); font-size:14px; margin-bottom:20px;">
+           <strong id="sent-email-display"></strong> adresine 6 haneli bir doğrulama kodu gönderdik.
+         </p>
+         
+         <form id="code-form">
+           <div class="field" style="margin-bottom:15px;">
+             <label for="verification-code">Doğrulama Kodu</label>
+             <input id="verification-code" type="text" placeholder="123456" maxlength="6" required style="text-align:center; font-size:20px; letter-spacing:4px;">
+             <p class="hint">Demo Modu: Herhangi 6 haneli kod girebilirsin (örn: 123456).</p>
+           </div>
+           <button type="submit" class="primary" style="width:100%;">Giriş Yap ve Kampüse Bağlan</button>
+           <button type="button" id="back-to-email" class="secondary" style="width:100%; margin-top:8px;">Farklı E-posta Dene</button>
+         </form>
+       </div>
+
+     </div>
+   </section>
+
+   <!-- ANA SAYFA -->
+   <section id="view-home" class="view" aria-labelledby="home-title">
+    <div class="hero">
+     <div class="hero-copy">
+      <div class="eyebrow" id="campus-hero-tag">KAMPÜSTE BİRBİRİMİZE YARDIMCI OLALIM</div>
+      <h1 id="home-title">Kaybolan şeyler <span>yeniden buluşsun.</span></h1>
+      <p>Kampüsünde bir eşyanı mı kaybettin, yoksa bir şey mi buldun? İlan aç; oda arkadaşların ve okul arkadaşlarınla hızlıca eşleş.</p>
+      <div class="hero-actions">
+        <button id="lost-cta" class="primary" data-create-type="lost"><i data-lucide="search" class="icon"></i> Kaybettim</button> 
+        <button id="found-cta" class="secondary" data-create-type="found"><i data-lucide="hand-heart" class="icon"></i> Buldum</button>
+      </div>
+     </div>
+     <div class="hero-art" aria-hidden="true">
+      <span class="emoji">👛</span><strong>Bir yerde görüldü!</strong><small>İyi ki ilan açmışsın ✨</small>
+     </div>
+    </div>
+    <div class="section-head">
+     <div>
+      <h2>Son ilanlar</h2>
+      <p id="campus-listing-sub">Sadece senin üniversitendeki kayıp ve bulunan eşyalar</p>
+     </div>
+     <span id="listing-count" class="count"></span>
+    </div>
+    <div class="toolbar">
+     <div class="search-wrap">
+      <i data-lucide="search" class="icon"></i>
+      <input id="search-input" type="search" placeholder="Eşya veya yer ara..." aria-label="İlanlarda ara">
+     </div>
+     <select id="type-filter" class="filter" aria-label="İlan türünü filtrele">
+       <option value="all">Tüm ilanlar</option>
+       <option value="lost">Kaybettim</option>
+       <option value="found">Buldum</option>
+     </select>
+    </div>
+    <div id="listing-grid" class="listings"></div>
+   </section>
+
+   <!-- İLAN OLUŞTURMA -->
+   <section id="view-create" class="view" aria-labelledby="create-title">
+    <div class="page-intro">
+     <div class="eyebrow">YENİ İLAN</div>
+     <h1 id="create-title">Bir ilan oluşturalım.</h1>
+     <p>Eşyanı tarif et; bulduğun bir eşyanın sahibinin bilebileceği ayrıntıyı ilanda paylaşma.</p>
+    </div>
+    <div class="form-layout">
+     <form id="listing-form" class="panel">
+      <h2>İlan bilgileri</h2>
+      <div class="form-grid">
+       <div class="field full">
+        <label for="listing-type">Ne oldu?</label>
+        <select id="listing-type" required>
+          <option value="lost">Eşyamı kaybettim</option>
+          <option value="found">Bir eşya buldum</option>
+        </select>
+       </div>
+       <div class="field full">
+        <label for="item-title">Eşya adı</label>
+        <input id="item-title" required maxlength="80" placeholder="Örn. Siyah cüzdan">
+       </div>
+       <div class="field">
+        <label for="item-category">Kategori</label>
+        <select id="item-category" required>
+          <option value="">Kategori seç</option>
+          <option>Aksesuar</option>
+          <option>Elektronik</option>
+          <option>Çanta</option>
+          <option>Giyim</option>
+          <option>Diğer</option>
+        </select>
+       </div>
+       <div class="field">
+        <label for="item-color">Renk</label>
+        <input id="item-color" required maxlength="40" placeholder="Örn. Siyah">
+       </div>
+       <div class="field">
+        <label for="item-brand">Marka</label>
+        <input id="item-brand" maxlength="60" placeholder="Bilinmiyorsa boş bırak">
+       </div>
+       <div class="field">
+        <label for="item-place">Yer / Fakülte / Konum</label>
+        <input id="item-place" required maxlength="100" placeholder="Örn. Mühendislik Binası 2. Kat">
+       </div>
+       <div class="field">
+        <label for="item-date">Tarih</label>
+        <input id="item-date" type="date" required>
+       </div>
+       <div class="field full">
+        <label for="item-description">Açıklama</label>
+        <textarea id="item-description" maxlength="600" placeholder="Herkese açık, genel bir tarif yaz."></textarea>
+       </div>
+       <div id="secret-field" class="field full" hidden>
+        <label for="item-secret">Gizli özellik (ilanda görünmez)</label>
+        <input id="item-secret" maxlength="120" placeholder="Sadece sahibinin bilebileceği bir ayrıntı">
+        <p class="hint">Bu bilgi ilanlarda gösterilmez.</p>
+       </div>
+       <div class="field full">
+        <label for="item-nickname">Görünen adın</label>
+        <input id="item-nickname" required maxlength="40" placeholder="Örn. Deniz">
+       </div>
+      </div>
+      <button id="submit-listing" type="submit" class="primary form-submit"><i data-lucide="plus" class="icon"></i> İlanı yayınla</button>
+     </form>
+     <aside class="panel">
+      <h2>İpuçları</h2>
+      <div class="aside-note">
+       <i data-lucide="lightbulb" class="icon"></i><strong>Güvenlik Notu</strong><br>
+       Bulduğun eşyanın ayırt edici detaylarını paylaşma. Sadece kendi üniversitendeki doğrulanmış kişilerin bu ilanı gördüğünden emin olabilirsin.
+      </div>
+     </aside>
+    </div>
+   </section>
+
+   <!-- EŞLEŞMELER -->
+   <section id="view-matches" class="view" aria-labelledby="matches-title">
+    <div class="page-intro">
+     <div class="eyebrow">BİRBİRİNİ BULAN İLANLAR</div>
+     <h1 id="matches-title">Olası eşleşmeler</h1>
+     <p>Kampüs içerisindeki ilanlar arasındaki eşleşmeler listelenir.</p>
+    </div>
+    <div id="matches-list"></div>
+   </section>
+
+   <!-- DOĞRULAMA -->
+   <section id="view-verify" class="view" aria-labelledby="verify-title">
+    <div class="page-intro">
+     <div class="eyebrow">ÖRNEK EŞLEŞME · SAHİPLİK KONTROLÜ</div>
+     <h1 id="verify-title">Eşyanın içinde ne vardı?</h1>
+    </div>
+    <form id="verify-form" class="panel" style="max-width:660px">
+     <h2>Siyah cüzdan · Kütüphane girişi</h2>
+     <div class="field">
+      <label for="verify-answer">Cevabın</label>
+      <textarea id="verify-answer" required maxlength="120" placeholder="Cüzdanın içindeki ayırt edici eşyayı yaz"></textarea>
+     </div>
+     <p id="verify-feedback" class="hint" role="status" aria-live="polite"></p>
+     <button id="verify-submit" class="primary" type="submit">Cevabı kontrol et</button>
+    </form>
+   </section>
+
+   <!-- MESAJLAR -->
+   <section id="view-chat" class="view" aria-labelledby="chat-title">
+    <div class="page-intro">
+     <div class="eyebrow">İLETİŞİMDE KAL</div>
+     <h1 id="chat-title">Mesajlar</h1>
+    </div>
+    <div class="chat-layout">
+     <aside class="chat-sidebar">
+      <h2>Konuşmalar</h2>
+      <div id="thread-list" class="thread-list"></div>
+     </aside>
+     <div class="chat-main">
+      <div id="chat-heading" class="chat-header"></div>
+      <div id="messages" class="messages"></div>
+      <form id="chat-form" class="chat-form">
+       <input id="chat-message" maxlength="500" placeholder="Mesajını yaz..." aria-label="Mesajın">
+       <button id="send-message" type="submit" class="primary"><i data-lucide="send" class="icon"></i></button>
+      </form>
+     </div>
+    </div>
+   </section>
+
+   <!-- BİLDİRİMLER -->
+   <section id="view-notifications" class="view" aria-labelledby="notifications-title">
+    <div class="page-intro">
+     <div class="eyebrow">HABERİN OLSUN</div>
+     <h1 id="notifications-title">Bildirimler</h1>
+    </div>
+    <article class="panel" style="max-width:720px">
+     <span class="tag found">BİLDİRİM</span>
+     <h2 style="margin:18px 0 10px">Kampüsünde eşleşme var!</h2>
+     <p>İlanına benzer bir eşya oda listenize eklendi.</p>
+    </article>
+   </section>
+  </main>
+
+  <footer class="foot">
+   <div class="shell">
+    <span>© Kampüste Bul · Bir eşya, bir umut.</span>
+    <span>Güvenli Kampüs Ağı ✳</span>
+   </div>
+  </footer>
+
+  <script>
+    const UNIVERSITY_MAP = {
+      "gsu.edu.tr": "Galatasaray Üniversitesi",
+      "ogr.gsu.edu.tr": "Galatasaray Üniversitesi",
+      "boun.edu.tr": "Boğaziçi Üniversitesi",
+      "itu.edu.tr": "İstanbul Teknik Üniversitesi",
+      "odtu.edu.tr": "Orta Doğu Teknik Üniversitesi",
+      "metu.edu.tr": "Orta Doğu Teknik Üniversitesi",
+      "yildiz.edu.tr": "Yıldız Teknik Üniversitesi",
+      "std.yildiz.edu.tr": "Yıldız Teknik Üniversitesi",
+      "marmara.edu.tr": "Marmara Üniversitesi",
+      "marun.edu.tr": "Marmara Üniversitesi",
+      "istanbul.edu.tr": "İstanbul Üniversitesi",
+      "hacettepe.edu.tr": "Hacettepe Üniversitesi",
+      "bilkent.edu.tr": "Bilkent Üniversitesi"
+    };
+
+    let currentUser = null;
+    let pendingEmail = "";
+    let activeView = "auth";
+
+    const $ = id => document.getElementById(id);
+    const esc = s => String(s??"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+    function icons(){ if(window.lucide) lucide.createIcons(); }
+
+    function showStatus(text){
+      $("status").textContent = text;
+      $("status").classList.add("show");
+      setTimeout(() => $("status").classList.remove("show"), 5000);
+    }
+
+    function getUniversityFromEmail(email) {
+      const domain = email.split('@')[1];
+      if (!domain) return null;
+      
+      if (UNIVERSITY_MAP[domain]) {
+        return { domain, name: UNIVERSITY_MAP[domain] };
+      }
+      
+      if (domain.endsWith(".edu.tr")) {
+        const parts = domain.split('.');
+        const mainPart = parts[parts.length - 3] || parts[0];
+        const formattedName = mainPart.toUpperCase() + " Üniversitesi";
+        return { domain, name: formattedName };
+      }
+
+      return null;
+    }
+
+    function navigate(view){
+      if (!currentUser && view !== "auth") {
+        view = "auth";
+        showStatus("Lütfen önce okul e-postanızla giriş yapın.");
+      }
+      
+      activeView = view;
+      document.querySelectorAll(".view").forEach(el => el.classList.toggle("active", el.id === "view-" + view));
+      document.querySelectorAll(".nav button").forEach(el => el.classList.toggle("active", el.dataset.view === view));
+      
+      document.querySelector(".nav").style.display = currentUser ? "flex" : "none";
+      $("user-campus-badge").style.display = currentUser ? "inline-flex" : "none";
+      
+      window.scrollTo({top:0, behavior:"smooth"});
+      icons();
+    }
+
+    $("email-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = $("student-email").value.trim().toLowerCase();
+      const uniInfo = getUniversityFromEmail(email);
+
+      if (!uniInfo) {
+        showStatus("Lütfen geçerli bir üniversite (.edu.tr) e-posta adresi girin!");
+        return;
+      }
+
+      pendingEmail = email;
+      $("sent-email-display").textContent = email;
+      
+      $("auth-step-1").classList.remove("active");
+      $("auth-step-2").classList.add("active");
+      showStatus("Doğrulama kodu e-posta adresinize gönderildi.");
+    });
+
+    $("back-to-email").addEventListener("click", () => {
+      $("auth-step-2").classList.remove("active");
+      $("auth-step-1").classList.add("active");
+    });
+
+    $("code-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const code = $("verification-code").value.trim();
+
+      if (code.length !== 6) {
+        showStatus("Lütfen 6 haneli doğrulama kodunu girin.");
+        return;
+      }
+
+      const uniInfo = getUniversityFromEmail(pendingEmail);
+      currentUser = {
+        email: pendingEmail,
+        campusDomain: uniInfo.domain,
+        campusName: uniInfo.name
+      };
+
+      $("campus-name-text").textContent = currentUser.campusName;
+      $("campus-hero-tag").textContent = `${currentUser.campusName.toUpperCase()} KAMPÜSÜ`;
+      $("campus-listing-sub").textContent = `Sadece ${currentUser.campusName} odasına özel ilanlar`;
+
+      showStatus(`Giriş başarılı! ${currentUser.campusName} odasına bağlandınız.`);
+      navigate("home");
+    });
+
+    function toggleSecret(){
+      const found = $("listing-type").value === "found";
+      $("secret-field").hidden = !found;
+    }
+    $("listing-type").addEventListener("change", toggleSecret);
+
+    document.addEventListener("click", e => {
+      const view = e.target.closest("[data-view]");
+      if(view){ navigate(view.dataset.view); return; }
+    });
+
+    icons();
+    navigate("auth");
+  </script>
+ </body>
+</html>
